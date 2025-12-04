@@ -96,6 +96,14 @@ class Site_Alert_Banner {
             'site-alert-banner',
             'site_alert_main_section'
         );
+        
+        add_settings_field(
+            'alert_expiration',
+            'Expiration Date',
+            array($this, 'alert_expiration_callback'),
+            'site-alert-banner',
+            'site_alert_main_section'
+        );
     }
     
     public function sanitize_settings($input) {
@@ -116,6 +124,8 @@ class Site_Alert_Banner {
         $sanitized['width'] = in_array($input['width'], $allowed_widths) ? $input['width'] : 'full';
         
         $sanitized['content_hash'] = md5($sanitized['content']);
+        
+        $sanitized['expiration'] = !empty($input['expiration']) ? sanitize_text_field($input['expiration']) : '';
         
         return $sanitized;
     }
@@ -225,6 +235,15 @@ class Site_Alert_Banner {
         <?php
     }
     
+    public function alert_expiration_callback() {
+        $options = get_option($this->option_name);
+        $expiration = isset($options['expiration']) ? $options['expiration'] : '';
+        ?>
+        <input type="date" name="<?php echo $this->option_name; ?>[expiration]" value="<?php echo esc_attr($expiration); ?>">
+        <p class="description">Optional: Set an expiration date. The alert will automatically hide after this date. Leave blank for no expiration.</p>
+        <?php
+    }
+    
     public function render_settings_page() {
         if (!current_user_can('manage_options')) {
             return;
@@ -296,6 +315,11 @@ class Site_Alert_Banner {
         $options = get_option($this->option_name);
         
         if (!isset($options['enabled']) || !$options['enabled'] || empty($options['content'])) {
+            return;
+        }
+        
+        // Check if alert has expired
+        if (!empty($options['expiration']) && strtotime($options['expiration']) < current_time('timestamp')) {
             return;
         }
         
