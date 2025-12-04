@@ -1,0 +1,162 @@
+/* Site Alert Banner Frontend Styles */
+
+.site-alert-banner {
+    position: relative;
+    z-index: 9999;
+    padding: 15px 20px;
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: center;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.site-alert-banner.alert-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.site-alert-banner.alert-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.site-alert-banner.alert-full {
+    width: 100%;
+}
+
+.site-alert-banner.alert-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.alert-content {
+    position: relative;
+    max-width: 100%;
+}
+
+.alert-close {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+
+.alert-close:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Alert Type Colors */
+.site-alert-banner.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border-left: 4px solid #bee5eb;
+}
+
+.site-alert-banner.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-left: 4px solid #c3e6cb;
+}
+
+.site-alert-banner.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border-left: 4px solid #ffeaa7;
+}
+
+.site-alert-banner.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid #f5c6cb;
+}
+
+/* Links in alerts */
+.site-alert-banner a {
+    color: inherit;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.site-alert-banner a:hover {
+    text-decoration: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .site-alert-banner {
+        padding: 12px 15px;
+        font-size: 13px;
+    }
+    
+    .alert-close {
+        right: 10px;
+        width: 25px;
+        height: 25px;
+        font-size: 20px;
+    }
+    
+    .site-alert-banner.alert-container {
+        margin: 0 10px;
+        width: calc(100% - 20px);
+    }
+}
+
+/* Animation for showing/hiding */
+.site-alert-banner.alert-show {
+    animation: slideDown 0.3s ease-out;
+}
+
+.site-alert-banner.alert-hide {
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+}
+
+/* Adjust body padding when alert is at top */
+body.alert-banner-top-active {
+    padding-top: 60px;
+}
+
+body.alert-banner-bottom-active {
+    padding-bottom: 60px;
+}
