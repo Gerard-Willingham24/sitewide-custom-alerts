@@ -3,6 +3,7 @@
 .site-alert-banner {
     position: relative;
     z-index: 9999;
+    height: 2.5em;
     padding: 15px 20px;
     font-size: 14px;
     line-height: 1.4;
@@ -38,13 +39,18 @@
 
 .alert-content {
     position: relative;
+    height: inherit;
     max-width: 100%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
 }
 
 .alert-close {
     position: absolute;
     top: 50%;
-    right: 15px;
+    right: 35px;
     transform: translateY(-50%);
     background: none;
     border: none;
@@ -88,6 +94,11 @@
     background-color: #f8d7da;
     color: #721c24;
     border-left: 4px solid #f5c6cb;
+}
+
+/* Text in alerts */
+.site-alert-banner p {
+    font-size: 1.2rem;
 }
 
 /* Links in alerts */

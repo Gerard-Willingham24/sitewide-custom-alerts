@@ -45,9 +45,28 @@
 .alert-preview-banner {
     padding: 15px 20px;
     margin-bottom: 10px;
-    border-radius: 4px;
     position: relative;
     text-align: center;
+    height: 2.5em;
+    font-size: 14px;
+    line-height: 1.4;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.alert-preview-banner .alert-content {
+    position: relative;
+    height: inherit;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.alert-preview-banner .alert-content p {
+    margin: 0;
+    font-size: 1.2rem;
 }
 
 .alert-preview-banner.preview-info {
@@ -77,18 +96,21 @@
 .alert-preview-close {
     position: absolute;
     top: 50%;
-    right: 15px;
+    right: 35px;
     transform: translateY(-50%);
     background: none;
     border: none;
-    font-size: 20px;
+    font-size: 24px;
+    font-weight: bold;
     cursor: pointer;
-    width: 25px;
-    height: 25px;
+    padding: 0;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    transition: background-color 0.2s ease;
 }
 
 .alert-preview-close:hover {
@@ -109,6 +131,17 @@
     margin-bottom: 10px;
 }
 
+/* Links in preview alerts */
+.alert-preview-banner a {
+    color: inherit;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.alert-preview-banner a:hover {
+    text-decoration: none;
+}
+
 /* Responsive admin styles */
 @media (max-width: 782px) {
     .site-alert-admin-page .form-table th,
@@ -120,5 +153,18 @@
     
     .site-alert-admin-page .form-table th {
         padding-bottom: 5px;
+    }
+    
+    /* Responsive preview adjustments to match frontend */
+    .alert-preview-banner {
+        padding: 12px 15px;
+        font-size: 13px;
+    }
+    
+    .alert-preview-close {
+        right: 10px;
+        width: 25px;
+        height: 25px;
+        font-size: 20px;
     }
 }

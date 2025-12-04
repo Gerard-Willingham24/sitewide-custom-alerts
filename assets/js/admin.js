@@ -22,8 +22,10 @@
             var previewHtml = '<div class="alert-preview">' +
                 '<h3>Preview</h3>' +
                 '<div class="alert-preview-banner" id="alert-preview-banner">' +
-                '<span class="preview-content">Your alert message will appear here...</span>' +
+                '<div class="alert-content">' +
+                '<p class="preview-content">Your alert message will appear here...</p>' +
                 '<button class="alert-preview-close" style="display: none;">&times;</button>' +
+                '</div>' +
                 '</div>' +
                 '<p class="description">This is how your alert will appear to visitors.</p>' +
                 '</div>';
@@ -45,9 +47,11 @@
             $preview.removeClass('preview-info preview-success preview-warning preview-error');
             $preview.addClass('preview-' + alertType);
             
-            // Update content
+            // Update content - strip paragraph tags if content already has them to avoid double wrapping
             if (content.trim()) {
-                $content.html(content);
+                // Remove outer <p> tags if they exist since we're wrapping in our own <p>
+                var cleanContent = content.replace(/^<p[^>]*>|<\/p>$/g, '');
+                $content.html(cleanContent);
             } else {
                 $content.text('Your alert message will appear here...');
             }

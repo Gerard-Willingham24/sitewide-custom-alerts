@@ -344,7 +344,7 @@ class Site_Alert_Banner {
              data-alert-hash="<?php echo esc_attr($content_hash); ?>"
              style="display: none;">
             <div class="alert-content">
-                <?php echo wp_kses_post($options['content']); ?>
+                <p><?php echo wp_kses_post($options['content']); ?></p>
                 <?php if ($dismissible) : ?>
                     <button class="alert-close" aria-label="Close alert">&times;</button>
                 <?php endif; ?>
