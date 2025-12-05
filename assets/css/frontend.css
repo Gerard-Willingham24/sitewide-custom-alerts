@@ -3,7 +3,7 @@
 .site-alert-banner {
     position: relative;
     z-index: 9999;
-    height: 2.5em;
+    height: fit-content;
     padding: 15px 20px;
     font-size: 14px;
     line-height: 1.4;

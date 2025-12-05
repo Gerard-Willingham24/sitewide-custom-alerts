@@ -19,6 +19,7 @@ class Site_Alert_Banner {
         add_action('admin_menu', array($this, 'add_settings_page'));
         add_action('admin_init', array($this, 'register_settings'));
         
+        add_action('wp_head', array($this, 'display_alert'));
         add_action('wp_footer', array($this, 'display_alert'));
         
         add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_assets'));
@@ -323,8 +324,16 @@ class Site_Alert_Banner {
             return;
         }
         
-        $type = isset($options['type']) ? $options['type'] : 'info';
         $position = isset($options['position']) ? $options['position'] : 'top';
+        $current_hook = current_filter();
+        
+        // Only display on correct hook based on position
+        if (($position === 'top' && $current_hook !== 'wp_head') || 
+            ($position === 'bottom' && $current_hook !== 'wp_footer')) {
+            return;
+        }
+        
+        $type = isset($options['type']) ? $options['type'] : 'info';
         $dismissible = isset($options['dismissible']) && $options['dismissible'];
         $width = isset($options['width']) ? $options['width'] : 'full';
         $content_hash = isset($options['content_hash']) ? $options['content_hash'] : '';
@@ -355,3 +364,4 @@ class Site_Alert_Banner {
 }
 
 new Site_Alert_Banner();
+?>
