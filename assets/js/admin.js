@@ -13,7 +13,7 @@
         
         // Update preview when settings change
         $('#site_alert_content, select[name*="[type]"], input[name*="[dismissible]"]').on('change keyup', updatePreview);
-        $('input[name*="[position]"], input[name*="[width]"]').on('change', updatePreview);
+        $('input[name*="[position]"], input[name*="[width]"], input[name*="[fixed]"]').on('change', updatePreview);
         
         // Initial preview update
         updatePreview();

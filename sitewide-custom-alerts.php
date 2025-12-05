@@ -105,6 +105,14 @@ class Site_Alert_Banner {
             'site-alert-banner',
             'site_alert_main_section'
         );
+        
+        add_settings_field(
+            'alert_fixed',
+            'Fixed Position',
+            array($this, 'alert_fixed_callback'),
+            'site-alert-banner',
+            'site_alert_main_section'
+        );
     }
     
     public function sanitize_settings($input) {
@@ -127,6 +135,8 @@ class Site_Alert_Banner {
         $sanitized['content_hash'] = md5($sanitized['content']);
         
         $sanitized['expiration'] = !empty($input['expiration']) ? sanitize_text_field($input['expiration']) : '';
+        
+        $sanitized['fixed'] = isset($input['fixed']) ? 1 : 0;
         
         return $sanitized;
     }
@@ -245,6 +255,18 @@ class Site_Alert_Banner {
         <?php
     }
     
+    public function alert_fixed_callback() {
+        $options = get_option($this->option_name);
+        $checked = isset($options['fixed']) && $options['fixed'] ? 'checked' : '';
+        ?>
+        <label>
+            <input type="checkbox" name="<?php echo $this->option_name; ?>[fixed]" value="1" <?php echo $checked; ?>>
+            Use fixed positioning (alert stays visible when scrolling)
+        </label>
+        <p class="description">When enabled, the alert will remain fixed on screen. When disabled, the alert will scroll with the page content.</p>
+        <?php
+    }
+    
     public function render_settings_page() {
         if (!current_user_can('manage_options')) {
             return;
@@ -336,6 +358,7 @@ class Site_Alert_Banner {
         $type = isset($options['type']) ? $options['type'] : 'info';
         $dismissible = isset($options['dismissible']) && $options['dismissible'];
         $width = isset($options['width']) ? $options['width'] : 'full';
+        $fixed = isset($options['fixed']) && $options['fixed'];
         $content_hash = isset($options['content_hash']) ? $options['content_hash'] : '';
         
         $classes = array(
@@ -344,6 +367,10 @@ class Site_Alert_Banner {
             'alert-' . $position,
             'alert-' . $width
         );
+        
+        if ($fixed) {
+            $classes[] = 'alert-fixed';
+        }
         
         if ($dismissible) {
             $classes[] = 'alert-dismissible';

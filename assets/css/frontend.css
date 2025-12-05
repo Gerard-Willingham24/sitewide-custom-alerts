@@ -12,18 +12,28 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.site-alert-banner.alert-top {
+.site-alert-banner.alert-top.alert-fixed {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
 }
 
-.site-alert-banner.alert-bottom {
+.site-alert-banner.alert-bottom.alert-fixed {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
+}
+
+.site-alert-banner.alert-top:not(.alert-fixed) {
+    position: relative;
+    width: 100%;
+}
+
+.site-alert-banner.alert-bottom:not(.alert-fixed) {
+    position: relative;
+    width: 100%;
 }
 
 .site-alert-banner.alert-full {
@@ -163,11 +173,11 @@
     }
 }
 
-/* Adjust body padding when alert is at top */
-body.alert-banner-top-active {
+/* Adjust body padding when fixed alert is at top */
+body.alert-banner-top-active.alert-banner-fixed {
     padding-top: 60px;
 }
 
-body.alert-banner-bottom-active {
+body.alert-banner-bottom-active.alert-banner-fixed {
     padding-bottom: 60px;
 }
