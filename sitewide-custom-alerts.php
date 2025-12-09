@@ -140,6 +140,7 @@ class Site_Alert_Banner {
         $sanitized['content_hash'] = wp_hash($sanitized['content']);
         
         $sanitized['expiration'] = !empty($input['expiration']) ? sanitize_text_field($input['expiration']) : '';
+        $sanitized['expiration_time'] = !empty($input['expiration_time']) ? sanitize_text_field($input['expiration_time']) : '23:59';
         
         $sanitized['fixed'] = isset($input['fixed']) ? 1 : 0;
         
@@ -254,9 +255,12 @@ class Site_Alert_Banner {
     public function alert_expiration_callback() {
         $options = get_option($this->option_name);
         $expiration = isset($options['expiration']) ? $options['expiration'] : '';
+        $expiration_time = isset($options['expiration_time']) ? $options['expiration_time'] : '23:59';
+        $timezone = wp_timezone_string();
         ?>
         <input type="date" name="<?php echo $this->option_name; ?>[expiration]" value="<?php echo esc_attr($expiration); ?>">
-        <p class="description">Optional: Set an expiration date. The alert will automatically hide after this date. Leave blank for no expiration.</p>
+        <input type="time" name="<?php echo $this->option_name; ?>[expiration_time]" value="<?php echo esc_attr($expiration_time); ?>">
+        <p class="description">Optional: Set expiration date and time (<?php echo esc_html($timezone); ?>). The alert will automatically hide after this time. Leave blank for no expiration.</p>
         <?php
     }
     
@@ -354,8 +358,14 @@ class Site_Alert_Banner {
         }
         
         // Check if alert has expired
-        if (!empty($options['expiration']) && strtotime($options['expiration']) < current_time('timestamp')) {
-            return;
+        if (!empty($options['expiration'])) {
+            $expiration_time = isset($options['expiration_time']) ? $options['expiration_time'] : '23:59';
+            $expiration_datetime = $options['expiration'] . ' ' . $expiration_time;
+            $expiration_timestamp = wp_date('U', strtotime($expiration_datetime), wp_timezone());
+            
+            if ($expiration_timestamp < current_time('timestamp')) {
+                return;
+            }
         }
         
         $position = isset($options['position']) ? $options['position'] : 'top';
