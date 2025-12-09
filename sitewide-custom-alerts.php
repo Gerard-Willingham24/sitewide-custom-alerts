@@ -83,6 +83,7 @@ class Site_Alert_Banner {
         );
         
         add_settings_field(
+            // amazonq-ignore-next-line
             'alert_dismissible',
             'Dismissible',
             array($this, 'alert_dismissible_callback'),
@@ -302,6 +303,12 @@ class Site_Alert_Banner {
     }
     
     public function enqueue_frontend_assets() {
+        $options = get_option($this->option_name);
+        
+        if (!isset($options['enabled']) || !$options['enabled'] || empty($options['content'])) {
+            return;
+        }
+        
         wp_enqueue_style(
             'site-alert-frontend',
             plugin_dir_url(__FILE__) . 'assets/css/frontend.css',
