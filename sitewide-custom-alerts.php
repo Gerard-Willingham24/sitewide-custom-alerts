@@ -82,14 +82,7 @@ class Site_Alert_Banner {
             'site_alert_main_section'
         );
         
-        add_settings_field(
-            // amazonq-ignore-next-line
-            'alert_dismissible',
-            'Dismissible',
-            array($this, 'alert_dismissible_callback'),
-            'site-alert-banner',
-            'site_alert_main_section'
-        );
+
         
         add_settings_field(
             'alert_width',
@@ -132,7 +125,7 @@ class Site_Alert_Banner {
         $allowed_positions = array('top', 'bottom');
         $sanitized['position'] = in_array($input['position'], $allowed_positions) ? $input['position'] : 'top';
         
-        $sanitized['dismissible'] = isset($input['dismissible']) ? 1 : 0;
+
         
         $allowed_widths = array('full', 'container');
         $sanitized['width'] = in_array($input['width'], $allowed_widths) ? $input['width'] : 'full';
@@ -222,17 +215,7 @@ class Site_Alert_Banner {
         <?php
     }
     
-    public function alert_dismissible_callback() {
-        $options = get_option($this->option_name);
-        $checked = isset($options['dismissible']) && $options['dismissible'] ? 'checked' : '';
-        ?>
-        <label>
-            <input type="checkbox" name="<?php echo $this->option_name; ?>[dismissible]" value="1" <?php echo $checked; ?>>
-            Allow visitors to close the alert
-        </label>
-        <p class="description">If enabled, visitors can dismiss the alert. It will not show again until they clear their browser data or you update the alert content.</p>
-        <?php
-    }
+
     
     public function alert_width_callback() {
         $options = get_option($this->option_name);
@@ -378,10 +361,8 @@ class Site_Alert_Banner {
         }
         
         $type = isset($options['type']) ? $options['type'] : 'info';
-        $dismissible = isset($options['dismissible']) && $options['dismissible'];
         $width = isset($options['width']) ? $options['width'] : 'full';
         $fixed = isset($options['fixed']) && $options['fixed'];
-        $content_hash = isset($options['content_hash']) ? $options['content_hash'] : '';
         
         $classes = array(
             'site-alert-banner',
@@ -393,19 +374,10 @@ class Site_Alert_Banner {
         if ($fixed) {
             $classes[] = 'alert-fixed';
         }
-        
-        if ($dismissible) {
-            $classes[] = 'alert-dismissible';
-        }
         ?>
-        <div class="<?php echo esc_attr(implode(' ', $classes)); ?>" 
-             data-alert-hash="<?php echo esc_attr($content_hash); ?>"
-             style="display: none;">
+        <div class="<?php echo esc_attr(implode(' ', $classes)); ?>" style="display: none;">
             <div class="alert-content">
                 <p><?php echo wp_kses_post($options['content']); ?></p>
-                <?php if ($dismissible) : ?>
-                    <button class="alert-close" aria-label="Close alert">&times;</button>
-                <?php endif; ?>
             </div>
         </div>
         <?php
