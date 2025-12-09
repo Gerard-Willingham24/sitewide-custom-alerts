@@ -116,6 +116,10 @@ class Site_Alert_Banner {
     }
     
     public function sanitize_settings($input) {
+        if (!check_admin_referer('site_alert_settings_nonce', 'site_alert_nonce')) {
+            wp_die('Security check failed');
+        }
+        
         $sanitized = array();
         
         $sanitized['enabled'] = isset($input['enabled']) ? 1 : 0;
@@ -132,7 +136,7 @@ class Site_Alert_Banner {
         $allowed_widths = array('full', 'container');
         $sanitized['width'] = in_array($input['width'], $allowed_widths) ? $input['width'] : 'full';
         
-        $sanitized['content_hash'] = md5($sanitized['content']);
+        $sanitized['content_hash'] = wp_hash($sanitized['content']);
         
         $sanitized['expiration'] = !empty($input['expiration']) ? sanitize_text_field($input['expiration']) : '';
         
@@ -288,6 +292,7 @@ class Site_Alert_Banner {
             <form action="options.php" method="post">
                 <?php
                 settings_fields('site_alert_settings_group');
+                wp_nonce_field('site_alert_settings_nonce', 'site_alert_nonce');
                 do_settings_sections('site-alert-banner');
                 submit_button('Save Settings');
                 ?>
