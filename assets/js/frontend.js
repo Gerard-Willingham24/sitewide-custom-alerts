@@ -20,6 +20,16 @@
         
         showAlert();
         
+        // Add keyboard navigation
+        $alert.on('keydown', function(e) {
+            if (e.keyCode === 27) { // Escape key
+                $alert.blur();
+            }
+        });
+        
+        // Announce to screen readers
+        announceToScreenReader($alert.find('p').text());
+        
         $alert.on('click', '.alert-close', function(e) {
             e.preventDefault();
             hideAlert();
@@ -39,6 +49,26 @@
             } else if ($alert.hasClass('alert-bottom')) {
                 $('body').addClass('alert-banner-bottom-active');
             }
+            
+            // Focus management for screen readers
+            setTimeout(function() {
+                $alert.focus();
+            }, 100);
+        }
+        
+        function announceToScreenReader(message) {
+            var $announcement = $('<div>', {
+                'aria-live': 'assertive',
+                'aria-atomic': 'true',
+                'class': 'sr-only',
+                'text': message
+            });
+            
+            $('body').append($announcement);
+            
+            setTimeout(function() {
+                $announcement.remove();
+            }, 1000);
         }
         
         function hideAlert() {

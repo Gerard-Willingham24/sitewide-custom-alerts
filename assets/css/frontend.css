@@ -4,7 +4,7 @@
     position: relative;
     z-index: 9999;
     height: fit-content;
-    padding: 15px 20px;
+    padding: 0;
     font-size: 14px;
     line-height: 1.4;
     text-align: center;
@@ -180,4 +180,69 @@ body.alert-banner-top-active.alert-banner-fixed {
 
 body.alert-banner-bottom-active.alert-banner-fixed {
     padding-bottom: 60px;
+}
+
+/* Accessibility Features */
+
+/* Screen reader only text */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Keyboard focus styles */
+.site-alert-banner:focus {
+    outline: 3px solid #005fcc;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .site-alert-banner {
+        border: 2px solid;
+        font-weight: bold;
+    }
+    
+    .site-alert-banner.alert-info {
+        background-color: #000080;
+        color: #ffffff;
+        border-color: #ffffff;
+    }
+    
+    .site-alert-banner.alert-success {
+        background-color: #006400;
+        color: #ffffff;
+        border-color: #ffffff;
+    }
+    
+    .site-alert-banner.alert-warning {
+        background-color: #ff8c00;
+        color: #000000;
+        border-color: #000000;
+    }
+    
+    .site-alert-banner.alert-error {
+        background-color: #8b0000;
+        color: #ffffff;
+        border-color: #ffffff;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .site-alert-banner.alert-show,
+    .site-alert-banner.alert-hide {
+        animation: none;
+    }
+    
+    .site-alert-banner {
+        transition: none;
+    }
 }

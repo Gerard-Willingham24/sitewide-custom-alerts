@@ -374,10 +374,19 @@ class Site_Alert_Banner {
         if ($fixed) {
             $classes[] = 'alert-fixed';
         }
+        $aria_label = ucfirst($type) . ' alert: ' . wp_strip_all_tags($options['content']);
         ?>
-        <div class="<?php echo esc_attr(implode(' ', $classes)); ?>" style="display: none;">
+        <div class="<?php echo esc_attr(implode(' ', $classes)); ?>" 
+             role="alert" 
+             aria-live="polite" 
+             aria-label="<?php echo esc_attr($aria_label); ?>"
+             tabindex="0"
+             style="display: none;">
             <div class="alert-content">
-                <p><?php echo wp_kses_post($options['content']); ?></p>
+                <span class="sr-only"><?php echo esc_html(ucfirst($type)); ?> alert: </span>
+                <div aria-describedby="alert-content-<?php echo esc_attr($type); ?>">
+                    <p id="alert-content-<?php echo esc_attr($type); ?>"><?php echo wp_kses_post($options['content']); ?></p>
+                </div>
             </div>
         </div>
         <?php
